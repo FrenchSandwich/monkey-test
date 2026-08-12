@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: monkey-test
+  mvc:
+    problemdetails:
+          enabled: true
+
+tractor:
+  grid:
+    height: 15
+    width: 15
+  initial-position:
+    x: 0
+    y: 0
+    direction: N
+

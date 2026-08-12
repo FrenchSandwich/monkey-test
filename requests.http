@@ -1,0 +1,45 @@
+### Tourner à droite
+POST http://localhost:8080/instructions
+Content-Type: application/json
+
+{
+  "instruction": "D"
+}
+
+### Avancer de 3 points
+POST http://localhost:8080/instructions
+Content-Type: application/json
+
+{
+  "instruction": "A(3)"
+}
+
+### Positionner le tracteur
+POST http://localhost:8080/instructions
+Content-Type: application/json
+
+{
+  "instruction": "S(2,3,N)"
+}
+
+### Instruction invalide
+POST http://localhost:8080/instructions
+Content-Type: application/json
+
+{
+  "instruction": "X"
+}
+
+### Instruction vide
+POST http://localhost:8080/instructions
+Content-Type: application/json
+
+{
+  "instruction": ""
+}
+
+### Body JSON malformé
+POST http://localhost:8080/instructions
+Content-Type: application/json
+
+not json
