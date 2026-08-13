@@ -4,6 +4,9 @@ spring:
   mvc:
     problemdetails:
           enabled: true
+  threads:
+    virtual:
+      enabled: true
 
 tractor:
   grid:
