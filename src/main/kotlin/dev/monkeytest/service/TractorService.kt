@@ -4,12 +4,17 @@ import dev.monkeytest.config.Grid
 import dev.monkeytest.config.logger
 import jakarta.annotation.PostConstruct
 import jakarta.annotation.PreDestroy
+import org.springframework.context.ApplicationEventPublisher
 import org.springframework.stereotype.Service
 import java.util.concurrent.LinkedBlockingQueue
 import java.util.concurrent.atomic.AtomicReference
 
 @Service
-class TractorService(initialPosition: Position, private val grid: Grid) {
+class TractorService(
+    initialPosition: Position,
+    private val grid: Grid,
+    private val eventPublisher: ApplicationEventPublisher
+) {
 
     companion object {
         private const val TURN_DELAY_MS = 100L
@@ -28,6 +33,8 @@ class TractorService(initialPosition: Position, private val grid: Grid) {
     fun stop() = worker.interrupt()
 
     fun executeInstruction(instruction: Instruction) = queue.offer(instruction)
+
+    fun currentPosition(): Position = position.get()
 
     private fun processQueue() {
         while (!Thread.currentThread().isInterrupted) {
@@ -88,6 +95,7 @@ class TractorService(initialPosition: Position, private val grid: Grid) {
 
         position.set(candidatePosition)
         log.info("Moving $actualPosition to $candidatePosition")
+        eventPublisher.publishEvent(PositionChangedEvent(candidatePosition))
         return true
     }
 }

@@ -5,15 +5,21 @@ import dev.monkeytest.service.TractorService
 import jakarta.validation.Valid
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter
 
 @Validated
 @RestController
 @RequestMapping("/instructions")
-class TractorController(val tractorService: TractorService, val parser: InstructionParser) {
+class TractorController(
+    val tractorService: TractorService,
+    val parser: InstructionParser,
+    val positionBroadcaster: PositionBroadcaster
+) {
 
     @PostMapping
     fun submit(
@@ -22,4 +28,7 @@ class TractorController(val tractorService: TractorService, val parser: Instruct
         parser.parse(instructionRequest.instruction).let { tractorService.executeInstruction(it) }
         return ResponseEntity.accepted().build()
     }
+
+    @GetMapping("/stream")
+    fun stream(): SseEmitter = positionBroadcaster.subscribe(tractorService.currentPosition())
 }
