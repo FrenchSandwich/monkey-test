@@ -1,7 +1,7 @@
 ### --- Scénario : le tracteur ne doit jamais sortir de la grille (15x15) ---
 
 ### 1. Positionner le tracteur près du bord haut, orienté Nord (y va croître vers le haut)
-POST http://localhost:8080/instructions
+POST http://localhost:8080/tractors/tractor-1/instructions
 Content-Type: application/json
 
 {
@@ -9,7 +9,7 @@ Content-Type: application/json
 }
 
 ### 2. Avancer largement au-delà du bord (y=14 -> tentative jusqu'à y=24) : doit s'arrêter à y=14, pas plus
-POST http://localhost:8080/instructions
+POST http://localhost:8080/tractors/tractor-1/instructions
 Content-Type: application/json
 
 {
@@ -17,7 +17,7 @@ Content-Type: application/json
 }
 
 ### 3. Positionner le tracteur dans le coin (0,0), orienté Sud (y décroîtrait sous 0)
-POST http://localhost:8080/instructions
+POST http://localhost:8080/tractors/tractor-1/instructions
 Content-Type: application/json
 
 {
@@ -25,7 +25,7 @@ Content-Type: application/json
 }
 
 ### 4. Avancer vers le sud depuis (0,0) : y ne doit jamais devenir négatif, le tracteur reste bloqué à (0,0)
-POST http://localhost:8080/instructions
+POST http://localhost:8080/tractors/tractor-1/instructions
 Content-Type: application/json
 
 {
@@ -33,7 +33,7 @@ Content-Type: application/json
 }
 
 ### 5. Positionner le tracteur dans le coin opposé (14,14), orienté Est (x sortirait de la grille)
-POST http://localhost:8080/instructions
+POST http://localhost:8080/tractors/tractor-1/instructions
 Content-Type: application/json
 
 {
@@ -41,7 +41,7 @@ Content-Type: application/json
 }
 
 ### 6. Avancer vers l'est depuis (14,14) : x ne doit jamais dépasser 14, le tracteur reste bloqué à (14,14)
-POST http://localhost:8080/instructions
+POST http://localhost:8080/tractors/tractor-1/instructions
 Content-Type: application/json
 
 {
@@ -49,7 +49,7 @@ Content-Type: application/json
 }
 
 ### 7. Tenter de positionner directement le tracteur en dehors de la grille (x hors bornes) : doit être rejeté et la position précédente conservée
-POST http://localhost:8080/instructions
+POST http://localhost:8080/tractors/tractor-1/instructions
 Content-Type: application/json
 
 {
@@ -57,7 +57,7 @@ Content-Type: application/json
 }
 
 ### 8. Tenter de positionner directement le tracteur en dehors de la grille (y négatif via coordonnée hors bornes) : doit être rejeté
-POST http://localhost:8080/instructions
+POST http://localhost:8080/tractors/tractor-1/instructions
 Content-Type: application/json
 
 {
