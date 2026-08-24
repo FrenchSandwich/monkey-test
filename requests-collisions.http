@@ -1,0 +1,41 @@
+### --- Scénario : deux tracteurs ne peuvent jamais occuper la même case ---
+
+### 1. Créer le tracteur A à (5,4), orienté Nord
+POST http://localhost:8080/tractors
+Content-Type: application/json
+
+{
+  "x": 5,
+  "y": 4,
+  "direction": "N"
+}
+
+### 2. Créer le tracteur B à (5,6), orienté Sud, face à A
+POST http://localhost:8080/tractors
+Content-Type: application/json
+
+{
+  "x": 5,
+  "y": 6,
+  "direction": "S"
+}
+
+### 3. A avance d'une case vers (5,5) : doit réussir
+POST http://localhost:8080/tractors/tractor-2/instructions
+Content-Type: application/json
+
+{
+  "instruction": "A(1)"
+}
+
+### 4. B tente d'avancer vers la même case (5,5), déjà occupée par A : doit être rejeté, B reste à (5,6)
+POST http://localhost:8080/tractors/tractor-3/instructions
+Content-Type: application/json
+
+{
+  "instruction": "A(1)"
+}
+
+### 5. Observer les positions en direct (voir "tractor-2" bouger, "tractor-3" rester bloqué)
+GET http://localhost:8080/tractors/stream
+Accept: text/event-stream

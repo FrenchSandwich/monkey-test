@@ -1,5 +1,15 @@
-### Tourner à droite
-POST http://localhost:8080/instructions
+### Créer un tracteur
+POST http://localhost:8080/tractors
+Content-Type: application/json
+
+{
+  "x": 0,
+  "y": 0,
+  "direction": "N"
+}
+
+### Tourner à droite (remplacer {id} par l'id retourné à la création)
+POST http://localhost:8080/tractors/tractor-1/instructions
 Content-Type: application/json
 
 {
@@ -7,7 +17,7 @@ Content-Type: application/json
 }
 
 ### Avancer de 3 points
-POST http://localhost:8080/instructions
+POST http://localhost:8080/tractors/tractor-1/instructions
 Content-Type: application/json
 
 {
@@ -15,7 +25,7 @@ Content-Type: application/json
 }
 
 ### Positionner le tracteur
-POST http://localhost:8080/instructions
+POST http://localhost:8080/tractors/tractor-1/instructions
 Content-Type: application/json
 
 {
@@ -23,7 +33,7 @@ Content-Type: application/json
 }
 
 ### Instruction invalide
-POST http://localhost:8080/instructions
+POST http://localhost:8080/tractors/tractor-1/instructions
 Content-Type: application/json
 
 {
@@ -31,7 +41,7 @@ Content-Type: application/json
 }
 
 ### Instruction vide
-POST http://localhost:8080/instructions
+POST http://localhost:8080/tractors/tractor-1/instructions
 Content-Type: application/json
 
 {
@@ -39,7 +49,19 @@ Content-Type: application/json
 }
 
 ### Body JSON malformé
-POST http://localhost:8080/instructions
+POST http://localhost:8080/tractors/tractor-1/instructions
 Content-Type: application/json
 
 not json
+
+### Tracteur inconnu -> 404
+POST http://localhost:8080/tractors/does-not-exist/instructions
+Content-Type: application/json
+
+{
+  "instruction": "D"
+}
+
+### Flux SSE de toutes les positions
+GET http://localhost:8080/tractors/stream
+Accept: text/event-stream
